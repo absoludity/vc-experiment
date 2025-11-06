@@ -1,0 +1,22 @@
+{
+  "@context": {
+    "Person": {
+      "@id": "http://example.org/Person",
+      "@type": "@id",
+      "@context": {
+        "givenName": "http://schema.org/givenName",
+        "familyName": "http://schema.org/familyName"
+      }
+    },
+    "Address": {
+      "@id": "http://example.org/Address",
+      "@type": "@id",
+      "@context": {
+        "streetAddress": "http://schema.org/streetAddress",
+        "addressLocality": "http://schema.org/addressLocality",
+        "postalCode": "http://schema.org/postalCode",
+        "addressCountry": "http://schema.org/addressCountry"
+      }
+    }
+  }
+}

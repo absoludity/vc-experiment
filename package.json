@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "jsonld": "./node_modules/.bin/jsonld expand --safe --lint ./person-address.jsonld && ./node_modules/.bin/jsonld expand --safe --lint ./address-census.jsonld"
+  },
+  "dependencies": {
+    "jsonld-cli": "^2.0.0"
+  }
+}
