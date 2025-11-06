@@ -21,14 +21,14 @@ wanting to model where a `Person` lives, we would hit the following error:
 
 ```json
 {
-  name: 'jsonld.ValidationError',
-  details: {
-    event: {
-      type: [ 'JsonLdEvent' ],
-      code: 'invalid property',
-      level: 'warning',
-      message: 'Dropping property that did not expand into an absolute IRI or keyword.',
-      details: { property: 'residesAt', expandedProperty: 'residesAt' }
+  "name": "jsonld.ValidationError",
+  "details": {
+    "event": {
+      "type": [ "JsonLdEvent" ],
+      "code": "invalid property",
+      "level": "warning",
+      "message": "Dropping property that did not expand into an absolute IRI or keyword.",
+      "details": { "property": "residesAt", "expandedProperty": "residesAt" }
     }
   }
 }
@@ -72,14 +72,14 @@ In RDF, **predicates** (relationships) exist independently of types and type pro
 
 ```json
 {
-  name: 'jsonld.ValidationError',
-  details: {
-    event: {
-      type: [ 'JsonLdEvent' ],
-      code: 'invalid property',
-      level: 'warning',
-      message: 'Dropping property that did not expand into an absolute IRI or keyword.',
-      details: { property: 'residesAt', expandedProperty: 'residesAt' }
+  "name": "jsonld.ValidationError",
+  "details": {
+    "event": {
+      "type": [ "JsonLdEvent" ],
+      "code": "invalid property",
+      "level": "warning",
+      "message": "Dropping property that did not expand into an absolute IRI or keyword.",
+      "details": { "property": "residesAt", "expandedProperty": "residesAt" }
     }
   }
 }
@@ -120,6 +120,10 @@ up seeing the above errors about missing properties and so went down the track
 of defining composite models. We can undo that with 0.7, assuming we can add the
 predicates as in this example, using Jargon or otherwise with post-processing of
 Jargon output (or some other strategy).
+
+TODO:
+- [ ] Create issue / improvement PR for jsonld-cli to avoid devs making wrong assumptions
+- [ ] Verify we can add predicates to contexts in Jargon or work with Alistair to find a solution there.
 
 ## Commands
 
