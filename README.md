@@ -20,7 +20,7 @@ When attempting to model data using JSON-LD, with two types defined in
 wanting to model where a `Person` lives, we would hit the following error:
 
 ```json
-Error: {
+{
   name: 'jsonld.ValidationError',
   details: {
     event: {
@@ -42,7 +42,7 @@ their properties. This lead us to thinking we needed to either:
 1. Add `residesAt` as a property of the `Person` type (not great - it's not part of the `Person`), or
 2. Create hybrid type like `PersonAddress` which either extends or encapsulates a `Person` to include an `Address`.
 
-**This is incorrect in RDF/JSON-LD.**
+Either of these solutions "fixes" the error but complicate the model by actually modelling relationships via the model types - **this is incorrect in RDF/JSON-LD.**
 
 ## The Reality: Predicates are Independent from Type Properties
 
@@ -50,43 +50,40 @@ In RDF, **predicates** (relationships) exist independently of types and type pro
 
 ### What needs IRI definitions:
 
-- ✅ **Types**: `Person`, `Address` (what things are)
-- ✅ **Predicates**: `residesAt`, `residents` (relationships between things)
-- ❌ **NOT**: Types don't need to pre-declare which predicates can be used with them (we were implicitly trying to do this because we mistook the predicate for a type property in the error message).
-
-## Demonstration Files
-
-### Shared Types ([`types-context.jsonld`](./types-context.jsonld))
-Defines `Person` and `Address` types with their intrinsic properties:
-- `Person`: `givenName`, `familyName`
-- `Address`: `streetAddress`, `addressLocality`, `postalCode`, `addressCountry`
-
-### Person-Address Credential ([`person-address.jsonld`](./person-address.jsonld))
-- **Subject**: A Person
-- **Predicate**: `residesAt` (Person → Address relationship)
-- Shows Jane Doe residing at a specific address
-
-### Address-Census Credential ([`address-census.jsonld`](./address-census.jsonld))
-- **Subject**: An Address
-- **Predicate**: `residents` (Address → Person relationship)
-- Shows the same address having multiple residents
+- **Types**: `Person`, `Address` (what things are)
+- **Predicates**: `residesAt`, `residents` (relationships between things)
+- **NOT**: Types don't need to pre-declare which predicates can be used with them (we were implicitly trying to do this because we mistook the predicate for a type property in the error message).
 
 ## Testing the Concept
 
 ### See the Error
-1. Remove the `residesAt` predicate definition from [`person-address.jsonld`](./person-address.jsonld):
+1. Remove the `residesAt` predicate definition from the context of [`person-address.jsonld`](./person-address.jsonld), so it contains only the vc and local context files:
    ```json
    {
      "@context": [
        "https://www.w3.org/ns/credentials/v2",
        "./types-context.jsonld"
-       // Remove the residesAt definition
      ]
    }
    ```
 
 2. Run: `npm run jsonld`
 3. Observe the "dropping property" error for `residesAt`
+
+```json
+{
+  name: 'jsonld.ValidationError',
+  details: {
+    event: {
+      type: [ 'JsonLdEvent' ],
+      code: 'invalid property',
+      level: 'warning',
+      message: 'Dropping property that did not expand into an absolute IRI or keyword.',
+      details: { property: 'residesAt', expandedProperty: 'residesAt' }
+    }
+  }
+}
+```
 
 ### See the Fix
 1. Add back the predicate definition:
@@ -103,7 +100,7 @@ Defines `Person` and `Address` types with their intrinsic properties:
    ```
 
 2. Run: `npm run jsonld`
-3. Validation succeeds **without** having to change the type.
+3. Validation succeeds **without** having to change or add properties to the type.
 
 ## Key Insights
 
@@ -113,13 +110,16 @@ Defines `Person` and `Address` types with their intrinsic properties:
 4. **Flexibility** - new relationships can be added without modifying existing type definitions
 5. **Reusability** - the same types can be used in different contexts with different predicates
 
-## Linked Data Benefits
+## Implication for UNTP credentials
 
-Both credentials reference the same entities with consistent IDs:
-- Jane Doe: `did:example:jane-doe-12345`
-- Address: `http://example.org/address/123-main-st-anytown`
-
-This creates a knowledge graph where the same real-world entities can be referenced from multiple perspectives and credentials.
+We can go back to having a `Product` as the subject of the DPP, rather than a
+`ProductClaim` composition of product and claims, while still representing the
+desired relationships and remaining valid jsonld. v0.5 of UNTP had invalid
+JSON-LD because we were redefining types, while trying to avoid that, we ended
+up seeing the above errors about missing properties and so went down the track
+of defining composite models. We can undo that with 0.7, assuming we can add the
+predicates as in this example, using Jargon or otherwise with post-processing of
+Jargon output (or some other strategy).
 
 ## Commands
 
