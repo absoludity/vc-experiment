@@ -51,7 +51,7 @@ In RDF, **predicates** (relationships) exist independently of types and type pro
 ### What needs IRI definitions:
 
 - **Types**: `Person`, `Address` (what things are)
-- **Predicates**: `residesAt`, `residents` (relationships between things)
+- **Predicates**: `residesAt`, `hasResidents` (relationships between things)
 - **NOT**: Types don't need to pre-declare which predicates can be used with them (we were implicitly trying to do this because we mistook the predicate for a type property in the error message).
 
 ## Testing the Concept
@@ -106,7 +106,7 @@ In RDF, **predicates** (relationships) exist independently of types and type pro
 
 1. **Predicates are global relationships** - they can connect any entities that make semantic sense
 2. **Types define entity structure** - what properties an entity inherently has
-3. **No circular dependencies needed** - `Person` doesn't need to know about `residesAt`, and `Address` doesn't need to know about `residents`
+3. **No circular dependencies needed** - `Person` doesn't need to know about `residesAt`, and `Address` doesn't need to know about `hasResidents`
 4. **Flexibility** - new relationships can be added without modifying existing type definitions
 5. **Reusability** - the same types can be used in different contexts with different predicates
 
