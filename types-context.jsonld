@@ -8,6 +8,15 @@
         "familyName": "http://schema.org/familyName"
       }
     },
+    "PersonAddress": {
+      "@id": "http://example.org/Person",
+      "@type": "@id",
+      "@context": {
+        "givenName": "http://schema.org/givenName",
+        "familyName": "http://schema.org/familyName",
+        "residesAt": "http://example.org/Address"
+      }
+    },
     "Address": {
       "@id": "http://example.org/Address",
       "@type": "@id",
