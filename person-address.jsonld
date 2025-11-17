@@ -1,10 +1,7 @@
 {
   "@context": [
     "https://www.w3.org/ns/credentials/v2",
-    "./types-context.jsonld",
-    {
-      "residesAt": "http://example.org/residesAt"
-    }
+    "./types-context.jsonld"
   ],
   "id": "http://example.edu/credentials/3732",
   "type": ["VerifiableCredential"],

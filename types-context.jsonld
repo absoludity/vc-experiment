@@ -1,5 +1,7 @@
 {
   "@context": {
+    "residesAt": "http://example.org/residesAt",
+    "hasResidents": "http://example.org/hasResidents",
     "Person": {
       "@id": "http://example.org/Person",
       "@type": "@id",
